@@ -1,0 +1,31 @@
+{
+  "ServiceMonitor": {
+    "ServiceName": "Nome-do-Servico",
+    "Thresholds": {
+      "Warning": 700,
+      "Emergency": 1000
+    },
+    "CooldownMinutes": 120,
+    "CheckIntervalSeconds": 90
+  },
+  "Database": {
+    "ConnectionString": "Data Source=(...);User Id=USUARIO_DB;Password=SENHA_DO_USUARIO_DB;",
+    "Query_Trigger": "SELECT COUNT(*) FROM SEU_SCHEMA.TABELA_FILA D WHERE D.STATUS = 'P' AND D.DATA_MOVIMENTO >= TRUNC(SYSDATE - 7)",
+    "Query_Diagnostic": "SELECT STATUS, CASE STATUS WHEN 0 THEN 'Pronto' ELSE 'Outro' END AS DESCRICAO, COUNT(*) AS QTD FROM SEU_SCHEMA.TABELA_STATUS P WHERE P.DATA_CRIACAO >= TRUNC(SYSDATE) GROUP BY STATUS"
+  },
+  "Alerting": {
+    "SendEmail": true,
+    "SmtpServer": "smtp.gmail.com",
+    "SmtpPort": 587,
+    "EmailFrom": "bot@empresa.com",
+    "EmailUser": "bot@empresa.com",
+    "EmailTo": "ti@empresa.com",
+    "Subject_Alert": "[ALERTA] Fila do Serviço {ServiceName} NÃO está baixando",
+    "Subject_Resolved": "[RESOLVIDO] Fila do Serviço {ServiceName} foi normalizada",
+    "AppPassword": "senha-de-app-de-16-digitos-do-gmail"
+  },
+  "Logging": {
+    "LogDirectory": "logs",
+    "LogRetentionDays": 30
+  }
+}
